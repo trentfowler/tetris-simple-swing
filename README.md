@@ -50,7 +50,7 @@ To do list, updated March 8, 2018:
 - [ ] Different colors for pieces and visual tweaks
 - [ ] Clean up code. For sure need to implement Iterable for custom objs, eliminate redundant variables, consolidate any code that is repeated. Hopefully around 500 lines total code
 - [ ] Basic score keeping
-- [ ] Levels and increasing speed. Want to increase spead rapidly for short games since this is just a demo and not practical
+- [ ] Levels and increasing speed. Want to increase speed rapidly for short games since this is just a demo and not practical
 - [ ] Easter egg??
 
 ## Authors
