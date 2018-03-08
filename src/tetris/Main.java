@@ -28,7 +28,7 @@ public class Main {
 				while (true) {
 					try {
 						Thread.sleep(1000);
-						tetris.move();
+						tetris.move(Tetris.Move.DOWN);
 					} catch (Exception e) { }
 				}
 			}
@@ -39,27 +39,31 @@ public class Main {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		frame.addKeyListener(new KeyListener() {
-			@Override
-			public void keyTyped(KeyEvent e) {
-				// TODO Auto-generated method stub
+			@Override public void keyTyped(KeyEvent e) { }
+			@Override public void keyPressed(KeyEvent e) { 
+				switch (e.getKeyCode()) {
+				case KeyEvent.VK_DOWN:
+					tetris.move(Tetris.Move.DOWN);
+					break;
+				case KeyEvent.VK_LEFT:
+					tetris.move(Tetris.Move.LEFT);
+					break;
+				case KeyEvent.VK_RIGHT:
+					tetris.move(Tetris.Move.RIGHT);
+					break;
+				case KeyEvent.VK_UP:
+					tetris.move(Tetris.Move.ROTATE);
+					break;
+				}
 			}
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				// TODO Auto-generated method stub
-			}
+			@Override public void keyReleased(KeyEvent e) { }
 		});
 	}
 
 }
 
 class Piece {
-	private enum Shape {
+	enum Shape {
 		L,
 		SQUARE,
 		Z,
@@ -137,27 +141,10 @@ class Piece {
 		return this.points;
 	}
 
-	void rotate() {
-		//TODO check for collide
-		if (this.orientation == 3) 
-			this.orientation = 0;
-		else this.orientation++;
-		
+	int getOrientation() {
+		return this.orientation;
 	}
-	
-	void down() {
-		int i = 0;
-		for (Point p: this.points) {
-			//TODO check for collide
-			this.points[i] = new Point(p.x, p.y + 1);
-		}
-	}
-	
-	boolean collides(int x, int y) {
-		//TODO Implement check
-		return true;
-	}
-	
+
 	int getX() {
 		return this.x;
 	}
@@ -166,10 +153,44 @@ class Piece {
 		return this.y;
 	}
 	
+	void rotate() {
+		if (this.orientation == 3)
+			this.orientation = 0;
+		else this.orientation++;
+		switch (this.shape) {
+		case L:
+			Point[] p = this.L[this.orientation];
+			for (int i = 0; i < p.length; i++) {
+				this.points[i] = new Point((p[i].x + this.x), 
+						(p[i].y + this.y));
+			}
+			break;
+		case Z:
+			break;
+		case T:
+			break;
+		case SQUARE:
+			break;
+		case LINE:
+			break;
+		case REVERSE_L:
+			break;
+		case REVERSE_Z: 
+			break;
+		} 
+	}
 }
 
 class Tetris extends JPanel {
 
+	enum Move {
+		LEFT,
+		RIGHT,
+		DOWN,
+		DROP,
+		ROTATE
+	}
+	
 	Piece curr_piece = new Piece();
 	Piece next_piece = new Piece();
 
@@ -194,9 +215,33 @@ class Tetris extends JPanel {
 	/**
 	 * Move the pieces every 1 second. 
 	 */
-	void move() {
-		for (Piece piece: this.pieces) {
-			piece.down();
+	void move(Move move) {
+		for (Move m: Move.values()) {
+			if (m == move) {
+				Point[] p = this.curr_piece.points();
+				switch (m) {
+				case LEFT:
+					// if no collision
+					for (int i = 0; i < p.length; i++) 
+						p[i].x -= 1;
+					break;
+				case RIGHT:
+					// if no collision
+					for (int i = 0; i < p.length; i++)
+						p[i].x += 1;
+					break;
+				case DOWN:
+					// if no collision
+					for (int i = 0; i < p.length; i++)
+						p[i].y += 1;
+					break;
+				case DROP:
+					break;
+				case ROTATE:
+					this.curr_piece.rotate();
+					break;
+				}
+			}
 		}
 		repaint();
 	}
