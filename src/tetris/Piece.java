@@ -143,8 +143,17 @@ public class Piece {
 		return this.x;
 	}
 	
+	void setX(int x) {
+		this.x = x;
+	}
+	
+	
 	int getY() {
 		return this.y;
+	}
+	
+	void setY(int y) {
+		this.y = y;
 	}
 	
 	void rotate() {

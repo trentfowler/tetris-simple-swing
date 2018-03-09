@@ -40,6 +40,26 @@ public class Tetris extends JPanel {
 	void clear() {
 
 	}
+
+	//TODO Implement method
+	boolean canMove(Move move) {
+		for (Move m: Move.values()) {
+			if (m == move) {
+				switch (m) {
+				case LEFT:
+					break;
+				case RIGHT:
+					break;
+				case DOWN:
+					break;
+				case ROTATE:
+					break;
+				}
+
+			}
+		}
+		return true;
+	}
 	
 	/**
 	 * Method for moving the currently falling piece after a 
