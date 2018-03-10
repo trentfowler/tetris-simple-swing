@@ -10,8 +10,8 @@ public class Piece {
 		Z,
 		LINE,
 		T,
-		REVERSE_L,
-		REVERSE_Z
+		BACK_L,
+		BACK_Z
 	}
 
 	private final Point[][] L = { 
@@ -44,13 +44,13 @@ public class Piece {
 			{new Point(0,0), new Point(1,0), new Point(2,0), new Point(1,1)},
 			{new Point(0,0), new Point(0,1), new Point(0,2), new Point(1,1)}
 	}; 
-	private final Point[][] REVERSE_L = { 
+	private final Point[][] BACK_L = {
 			{new Point(0,0), new Point(1,0), new Point(1,1), new Point(1,2)},
 			{new Point(0,0), new Point(0,1), new Point(1,0), new Point(2,0)},
 			{new Point(0,0), new Point(0,1), new Point(0,2), new Point(1,2)},
 			{new Point(0,1), new Point(1,1), new Point(2,0), new Point(2,1)}
 	}; 
-	private final Point[][] REVERSE_Z = { 
+	private final Point[][] BACK_Z = {
 			{new Point(0,1), new Point(1,0), new Point(1,1), new Point(2,1)},
 			{new Point(0,0), new Point(0,1), new Point(1,1), new Point(1,2)},
 			{new Point(0,1), new Point(1,0), new Point(1,1), new Point(2,1)},
@@ -67,7 +67,7 @@ public class Piece {
 	Piece() {
 		Random rand = new Random();
 		Shape[] shapes = Shape.values();
-		//this.shape = shapes[rand.nextInt(shapes.length)];
+		this.shape = shapes[rand.nextInt(shapes.length)];
 		this.shape = shapes[0]; //TODO
 		this.orientation = 0;
 		this.init();
@@ -111,15 +111,15 @@ public class Piece {
 						(li[i].y));
 			}
 			break;
-		case REVERSE_L:
-			Point[] rl = this.REVERSE_L[this.orientation];
+		case BACK_L:
+			Point[] rl = this.BACK_L[this.orientation];
 			for (int i = 0; i < rl.length; i++) {
 				this.points[i] = new Point((rl[i].x),
 						(rl[i].y));
 			}
 			break;
-		case REVERSE_Z: 
-			Point[] rz = this.REVERSE_Z[this.orientation];
+		case BACK_Z:
+			Point[] rz = this.BACK_Z[this.orientation];
 			for (int i = 0; i < rz.length; i++) {
 				this.points[i] = new Point((rz[i].x),
 						(rz[i].y));
@@ -132,15 +132,33 @@ public class Piece {
 		return this.points;
 	}
 
-	int getOrientation() {
-		return this.orientation;
-	}
-
 	void rotate() {
+	    Point[][] base = L;
+		switch (this.shape) {
+			case SQUARE:
+				base = SQUARE;
+				break;
+			case Z:
+				base = Z;
+				break;
+			case LINE:
+				base = LINE;
+				break;
+			case T:
+				base = T;
+				break;
+			case BACK_L:
+				base = BACK_L;
+				break;
+			case BACK_Z:
+				base = BACK_Z;
+				break;
+		}
 
-		int x_offset = points[0].x - L[orientation][0].x;
-		int y_offset = points[0].y - L[orientation][0].y;
+		int x_offset = points[0].x - base[orientation][0].x;
+		int y_offset = points[0].y - base[orientation][0].y;
 
+		//TODO: Debug code for eventual removal.
 		System.out.println("x_offset= " + x_offset + ", y_offset= " + y_offset);
 
 		if (orientation == 3)
@@ -148,7 +166,7 @@ public class Piece {
 		else orientation++;
 
 		int i = 0;
-		for (Point point: L[orientation]) {
+		for (Point point: base[orientation]) {
 			points[i] = point;
 			i++;
 		}
