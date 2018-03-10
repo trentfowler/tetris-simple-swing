@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.util.Random;
 
 public class Piece {
+
 	enum Shape {
 		L,
 		SQUARE,
@@ -14,7 +15,7 @@ public class Piece {
 		BACK_Z
 	}
 
-	private final Point[][] L = { 
+	private final Point[][] L = {
 			{new Point(0,0), new Point(0,1), new Point(0,2), new Point(1,2)},
 			{new Point(2,0), new Point(1,0), new Point(0,0), new Point(0,1)},
 			{new Point(1,2), new Point(1,1), new Point(1,0), new Point(0,0)},
@@ -55,105 +56,40 @@ public class Piece {
 			{new Point(0,0), new Point(0,1), new Point(1,1), new Point(1,2)},
 			{new Point(0,1), new Point(1,0), new Point(1,1), new Point(2,1)},
 			{new Point(0,0), new Point(0,1), new Point(1,1), new Point(1,2)}
-	}; 
-	
-	private Shape shape;
+	};
+
 	private int orientation;
-	private Point[] points; 
-	
+	private Shape shape;
+	private Point[] points;
+
 	/**
-	 * Default constructor, selects a random shape and uses the default origin.
+	 * Default constructor: Selects a random shape type.
 	 */
 	Piece() {
-		Random rand = new Random();
-		Shape[] shapes = Shape.values();
-		this.shape = shapes[rand.nextInt(shapes.length)];
-		this.shape = shapes[0]; //TODO
-		this.orientation = 0;
-		this.init();
-	}
-	
-	private void init() {
-		this.points = new Point[this.L[0].length];
-		switch (this.shape) {
-		case L:
-			Point[] l = this.L[this.orientation];
-			for (int i = 0; i < l.length; i++) {
-				this.points[i] = new Point((l[i].x),
-						(l[i].y));
-			}
-			break;
-		case Z:
-			Point[] z = this.Z[this.orientation];
-			for (int i = 0; i < z.length; i++) {
-				this.points[i] = new Point((z[i].x),
-						(z[i].y));
-			}
-			break;
-		case T:
-			Point[] t = this.T[this.orientation];
-			for (int i = 0; i < t.length; i++) {
-				this.points[i] = new Point((t[i].x),
-						(t[i].y));
-			}
-			break;
-		case SQUARE:
-			Point[] s = this.SQUARE[this.orientation];
-			for (int i = 0; i < s.length; i++) {
-				this.points[i] = new Point((s[i].x),
-						(s[i].y));
-			}
-			break;
-		case LINE:
-			Point[] li = this.LINE[this.orientation];
-			for (int i = 0; i < li.length; i++) {
-				this.points[i] = new Point((li[i].x),
-						(li[i].y));
-			}
-			break;
-		case BACK_L:
-			Point[] rl = this.BACK_L[this.orientation];
-			for (int i = 0; i < rl.length; i++) {
-				this.points[i] = new Point((rl[i].x),
-						(rl[i].y));
-			}
-			break;
-		case BACK_Z:
-			Point[] rz = this.BACK_Z[this.orientation];
-			for (int i = 0; i < rz.length; i++) {
-				this.points[i] = new Point((rz[i].x),
-						(rz[i].y));
-			}
-			break;
-		}
-	}
-	
-	Point[] points() {
-		return this.points;
+		orientation = 0;
+		shape = Shape.values()[(new Random()).nextInt(Shape.values().length)];
+		init();
 	}
 
-	void rotate() {
-	    Point[][] base = L;
-		switch (this.shape) {
-			case SQUARE:
-				base = SQUARE;
-				break;
-			case Z:
-				base = Z;
-				break;
-			case LINE:
-				base = LINE;
-				break;
-			case T:
-				base = T;
-				break;
-			case BACK_L:
-				base = BACK_L;
-				break;
-			case BACK_Z:
-				base = BACK_Z;
-				break;
+	/**
+	 * Initializes the piece by setting the starting location
+	 * and repainting the board.
+	 */
+	private void init() {
+		points = new Point[L[0].length];
+		for (int i = 0; i < points.length; i++) {
+			points[i] = new Point(
+					get_base_shape_for(shape)[orientation][i].x,
+                    get_base_shape_for(shape)[orientation][i].y
+			);
 		}
+	}
+
+	/**
+     * Rotates the piece. Rotation is clockwise, 90 degrees.
+	 */
+	void rotate() {
+		Point[][] base = get_base_shape_for(shape);
 
 		int x_offset = points[0].x - base[orientation][0].x;
 		int y_offset = points[0].y - base[orientation][0].y;
@@ -176,4 +112,62 @@ public class Piece {
 			points[j].y += y_offset;
 		}
 	}
+
+	/**
+	 * Performs the requested move operation on piece.
+	 * Checking for collisions is not done here, but should
+	 * be done before calling this method.
+	 *
+	 * @param move
+	 */
+	void move(Tetris.Move move) {
+
+        if (move == Tetris.Move.LEFT)
+        	for (int i = 0; i < points.length; i++)
+        		points[i].x--;
+
+        if (move == Tetris.Move.RIGHT)
+			for (int i = 0; i < points.length; i++)
+				points[i].x++;
+
+        if (move == Tetris.Move.DOWN)
+        	for (int i = 0; i < points.length; i++)
+			points[i].y++;
+
+        if (move == Tetris.Move.ROTATE)
+        	rotate();
+	}
+
+	/**
+	 * TODO: Needs attention.
+	 * @return
+	 */
+	Point[] points() {
+		return points;
+	}
+
+	/*
+	 * Helper method, takes shape enum name and
+	 * returns the actual shape.
+	 */
+	private Point[][] get_base_shape_for(Shape s) {
+		switch (this.shape) {
+			case L:
+				return L;
+			case SQUARE:
+				return SQUARE;
+			case Z:
+				return Z;
+			case LINE:
+				return LINE;
+			case T:
+				return T;
+			case BACK_L:
+				return BACK_L;
+			case BACK_Z:
+				return BACK_Z;
+			default: return null;
+		}
+	}
+
 }
