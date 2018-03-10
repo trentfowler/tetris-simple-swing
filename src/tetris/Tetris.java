@@ -96,11 +96,16 @@ public class Tetris extends JPanel {
 			}
 		}
 		repaint();
+
+		// Console output for debugging.
+        for (Point p: this.curr_piece.points())
+        	System.out.print("(" + p.x + "," + p.y + ")");
+        System.out.println();
 	}
 	
 	/**
 	 * Draws the game board, called on each repaint. Overridden 
-	 * 'paintComponent' method allows access to Graphics object needed 
+	 * method allows access to Graphics object needed
 	 * to draw directly on JPanel. 
 	 */
 	@Override public void paintComponent(Graphics g) {
@@ -124,3 +129,4 @@ public class Tetris extends JPanel {
 		}
 	}
 }
+
