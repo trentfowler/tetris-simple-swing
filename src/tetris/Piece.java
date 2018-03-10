@@ -91,15 +91,15 @@ public class Piece {
 	void rotate() {
 		Point[][] base = get_base_shape_for(shape);
 
-		int x_offset = points[0].x - base[orientation][0].x;
-		int y_offset = points[0].y - base[orientation][0].y;
-
-		//TODO: Debug code for eventual removal.
-		System.out.println("x_offset= " + x_offset + ", y_offset= " + y_offset);
-
 		if (orientation == 3)
 			orientation = 0;
 		else orientation++;
+
+		int x_offset = points[0].x - base[orientation][0].x;
+		int y_offset = points[0].y - base[orientation][0].y;
+
+		//TODO: Debug code, for eventual removal.
+		System.out.println("x_offset= " + x_offset + ", y_offset= " + y_offset);
 
 		int i = 0;
 		for (Point point: base[orientation]) {
