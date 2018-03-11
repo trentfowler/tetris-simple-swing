@@ -3,10 +3,9 @@
 Throwback tetris in Swing, created just for fun :space_invader: and because I did a similar project a few years ago and lost the source code.
 
 :warning::warning::warning: Project started March 7, 2018. Not functional but will update when basic tetris mechanics are done. :warning::warning::warning:
+:warning: March 11, 2018: Added basic mechanics, Still lacks collision detection on rotation. :warning: 
 
-
-![Tetris](https://i.imgur.com/wliv17u.gif)
-
+![Tetris](https://i.imgur.com/sOeYrcR.gif)
 The game board is an array of custom `Piece` objects. 10 cols x 20 rows (22 if you count the top 2 rows above the view for staging pieces). Each piece is an array of (X,Y) `Point` Objects, so the Square block would be represented as: 
 
 
@@ -42,12 +41,12 @@ The game board is an array of custom `Piece` objects. 10 cols x 20 rows (22 if y
 
 
 
-To do list, updated March 8, 2018: 
+To do list, updated ~~March 8~~ March 11, 2018: 
 - [X] Program skeleton and basic class structure
-- [ ] Collision detection 
+- [X] Collision detection 
 - [ ] Line clearing 
-- [ ] Some kind of simple line clearing animation
-- [ ] Different colors for pieces and visual tweaks
+- [ ] Some kind of simple line clearing animation and visual tweaks 
+- [X] Different colors for pieces
 - [ ] Clean up code. For sure need to implement Iterable for custom objs, eliminate redundant variables, consolidate any code that is repeated. Hopefully around 500 lines total code
 - [ ] Basic score keeping
 - [ ] Levels and increasing speed. Want to increase speed rapidly for short games since this is just a demo and not practical
