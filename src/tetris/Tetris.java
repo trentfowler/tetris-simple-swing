@@ -3,8 +3,6 @@ package tetris;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JPanel;
 
@@ -19,114 +17,81 @@ public class Tetris extends JPanel {
 		DROP,
 		ROTATE
 	}
-	
-	Piece curr_piece = new Piece();
-	Piece next_piece = new Piece();
 
-	List<Piece> pieces = new ArrayList<Piece>();
-	
+	private Piece piece;
+	private Board board;
+
 	/**
 	 * Default constructor. 
 	 */
 	Tetris() {
-		curr_piece = new Piece();
-		next_piece = new Piece();
-		pieces.add(curr_piece);
+		piece = new Piece();
+		board = new Board();
 	}
-	
+
 	/**
-	 * Check for complete rows and clear them.
+	 * Check if piece can move, and update piece
+	 * location and board accordingly.
+     *
+	 * @param direction
 	 */
-	void clear() {
+	void move(Move direction) {
 
-	}
-
-	//TODO Implement method
-	boolean canMove(Move move) {
-		for (Move m: Move.values()) {
-			if (m == move) {
-				switch (m) {
-				case LEFT:
-					break;
-				case RIGHT:
-					break;
-				case DOWN:
-					break;
-				case ROTATE:
-					break;
-				}
-
-			}
+		// Check if piece can move, update location accordingly.
+		if (board.can_move(piece, direction)) {
+			piece.move(direction);
 		}
-		return true;
-	}
-	
-	/**
-	 * Method for moving the currently falling piece after a 
-	 * key press.
-	 * 
-	 * @param move
-	 */
-	void move(Move move) {
-		for (Move m: Move.values()) {
-			if (m == move) {
-				Point[] p = this.curr_piece.points();
-				switch (m) {
-				case LEFT:
-					// if no collision
-					for (int i = 0; i < p.length; i++) 
-						p[i].x -= 1;
-					break;
-				case RIGHT:
-					// if no collision
-					for (int i = 0; i < p.length; i++)
-						p[i].x += 1;
-					break;
-				case DOWN:
-					// if no collision
-					for (int i = 0; i < p.length; i++)
-						p[i].y += 1;
-					break;
-				case DROP:
-					break;
-				case ROTATE:
-					this.curr_piece.rotate();
-					break;
-				}
-			}
+
+		// Bottom check, adds new piece as needed.
+		if (board.did_hit_bottom(piece)) {
+		    board.add(piece);
+		    piece = new Piece();
 		}
+
 		repaint();
 
-		// Console output for debugging.
-        for (Point p: this.curr_piece.points())
+		//TODO: Debug code, for eventual removal.
+		System.out.println(board);
+
+		//TODO: Debug code, for eventual removal.
+        for (Point p: piece.occupies())
         	System.out.print("(" + p.x + "," + p.y + ")");
         System.out.println();
 	}
-	
+
 	/**
 	 * Draws the game board, called on each repaint. Overridden 
 	 * method allows access to Graphics object needed
 	 * to draw directly on JPanel. 
 	 */
 	@Override public void paintComponent(Graphics g) {
-		//draw the board
+		super.paintComponent(g);
+
+		// Draw background.
+        setBackground(Color.DARK_GRAY);
+
+		// Draw board.
 		for (int col = 0; col < 10; col++) {
 			for (int row = 0; row < 20; row++) {
-				g.setColor(Color.DARK_GRAY);
-				g.fillRect(col*40, row*40, 40, 40);
-				g.setColor(Color.GRAY);
-				g.drawRect(col*40, row*40, 40, 40);
+			    if (board.get()[row][col] != Color.DARK_GRAY) {
+					g.setColor(board.get()[row][col]);
+					g.fillRect(col*40, row*40, 40, 40);
+					g.setColor(Color.BLACK);
+					g.drawRect(col*40, row*40, 40, 40);
+				}
 			}
 		}
-		//add the pieces
-		for (Piece p: this.pieces) {
-			for (Point t: p.points()) {
-				g.setColor(Color.RED);
-				g.fillRect((int)(40*t.getX()), (int)(40*t.getY()), 40, 40);
-				g.setColor(Color.BLACK);
-				g.drawRect((int)(40*t.getX()), (int)(40*t.getY()), 40, 40);
-			}
+
+		// Draw active piece.
+        for (int i = 0; i < piece.occupies().length; i++) {
+			g.setColor(piece.color());
+			g.fillRect(piece.occupies()[i].x*40,
+					piece.occupies()[i].y*40, 40, 40);
+			g.setColor(Color.BLACK);
+			g.drawRect(piece.occupies()[i].x*40,
+					piece.occupies()[i].y*40, 40, 40);
 		}
 	}
+
 }
 
