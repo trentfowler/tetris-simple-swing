@@ -1,6 +1,6 @@
 package tetris;
 
-import java.awt.Point;
+import java.awt.*;
 import java.util.Random;
 
 public class Piece {
@@ -34,22 +34,22 @@ public class Piece {
 			{new Point(0,1), new Point(0,2), new Point(1,0), new Point(1,1)}
 	}; 
 	private final Point[][] LINE = { 
-			{new Point(0,0), new Point(0,1), new Point(0,2), new Point(0,3)},
-			{new Point(0,0), new Point(1,0), new Point(2,0), new Point(3,0)},
-			{new Point(0,0), new Point(0,1), new Point(0,2), new Point(0,3)},
-			{new Point(0,0), new Point(1,0), new Point(2,0), new Point(3,0)}
-	}; 
+			{new Point(1,0), new Point(1,1), new Point(1,2), new Point(1,3)},
+			{new Point(0,1), new Point(1,1), new Point(2,1), new Point(3,1)},
+			{new Point(1,0), new Point(1,1), new Point(1,2), new Point(1,3)},
+			{new Point(0,1), new Point(1,1), new Point(2,1), new Point(3,1)}
+	};
 	private final Point[][] T = { 
 			{new Point(1,0), new Point(0,1), new Point(1,1), new Point(2,1)},
-			{new Point(1,0), new Point(1,1), new Point(1,2), new Point(0,1)},
+			{new Point(0,0), new Point(0,1), new Point(0,2), new Point(1,1)},
 			{new Point(0,0), new Point(1,0), new Point(2,0), new Point(1,1)},
-			{new Point(0,0), new Point(0,1), new Point(0,2), new Point(1,1)}
+			{new Point(1,0), new Point(0,1), new Point(1,1), new Point(1,2)}
 	}; 
 	private final Point[][] BACK_L = {
-			{new Point(0,0), new Point(1,0), new Point(1,1), new Point(1,2)},
-			{new Point(0,0), new Point(0,1), new Point(1,0), new Point(2,0)},
-			{new Point(0,0), new Point(0,1), new Point(0,2), new Point(1,2)},
-			{new Point(0,1), new Point(1,1), new Point(2,0), new Point(2,1)}
+			{new Point(1,0), new Point(1,1), new Point(1,2), new Point(0,2)},
+			{new Point(0,0), new Point(0,1), new Point(1,1), new Point(2,1)},
+			{new Point(0,0), new Point(0,1), new Point(0,2), new Point(1,0)},
+			{new Point(0,0), new Point(1,0), new Point(2,0), new Point(2,1)}
 	}; 
 	private final Point[][] BACK_Z = {
 			{new Point(0,1), new Point(1,0), new Point(1,1), new Point(2,1)},
@@ -60,14 +60,13 @@ public class Piece {
 
 	private int orientation;
 	private Shape shape;
+	private Color color;
 	private Point[] points;
 
 	/**
 	 * Default constructor: Selects a random shape type.
 	 */
 	Piece() {
-		orientation = 0;
-		shape = Shape.values()[(new Random()).nextInt(Shape.values().length)];
 		init();
 	}
 
@@ -76,13 +75,20 @@ public class Piece {
 	 * and repainting the board.
 	 */
 	private void init() {
+		orientation = 0;
+		shape = Shape.values()[(new Random()).nextInt(Shape.values().length)];
+
 		points = new Point[L[0].length];
-		for (int i = 0; i < points.length; i++) {
+		for (int i = 0; i < points.length; i++)
 			points[i] = new Point(
 					get_base_shape_for(shape)[orientation][i].x,
                     get_base_shape_for(shape)[orientation][i].y
 			);
-		}
+
+		for (int i = 0; i < Shape.values().length; i++)
+			if (shape == Shape.values()[i])
+				color = (new Color[]{Color.BLUE, Color.ORANGE, Color.YELLOW,
+						Color.GREEN, Color.RED, Color.CYAN, Color.PINK})[i];
 	}
 
 	/**
@@ -138,13 +144,14 @@ public class Piece {
         	rotate();
 	}
 
+	Color color() { return color; }
+
 	/**
-	 * TODO: Needs attention.
-	 * @return
+	 * Returns (x,y) indexes that this piece occupies.
+     *
+ 	 * @return
 	 */
-	Point[] points() {
-		return points;
-	}
+	Point[] occupies() { return points; }
 
 	/*
 	 * Helper method, takes shape enum name and
@@ -152,20 +159,13 @@ public class Piece {
 	 */
 	private Point[][] get_base_shape_for(Shape s) {
 		switch (this.shape) {
-			case L:
-				return L;
-			case SQUARE:
-				return SQUARE;
-			case Z:
-				return Z;
-			case LINE:
-				return LINE;
-			case T:
-				return T;
-			case BACK_L:
-				return BACK_L;
-			case BACK_Z:
-				return BACK_Z;
+			case L: return L;
+			case SQUARE: return SQUARE;
+			case Z: return Z;
+			case LINE: return LINE;
+			case T: return T;
+			case BACK_L: return BACK_L;
+			case BACK_Z: return BACK_Z;
 			default: return null;
 		}
 	}
