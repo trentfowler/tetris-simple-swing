@@ -9,7 +9,7 @@ Throwback tetris in Swing, created just for fun :space_invader: and because I di
 
 ---
 
-## ```Board.java```
+## ```Board```
 
 The game board is a 2D grid. 10 cols x 20 rows. 
 
