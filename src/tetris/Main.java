@@ -27,10 +27,11 @@ public class Main {
 		}.start();
 		JFrame frame = new JFrame(); 
 		frame.setContentPane(game);
-		frame.setSize(400, 800);
+		frame.setSize(407, 830);
+		frame.setResizable(false);
+		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-		//listeners
 		frame.addKeyListener(new KeyListener() {
 			@Override public void keyTyped(KeyEvent e) { }
 			@Override public void keyReleased(KeyEvent e) { }
