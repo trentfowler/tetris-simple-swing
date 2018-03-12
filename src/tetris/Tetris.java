@@ -39,6 +39,7 @@ public class Tetris extends JPanel {
 		// Bottom check, adds new piece as needed.
 		if (board.did_hit_bottom(piece)) {
 		    board.add(piece);
+		    board.clear_lines();
 		    piece = new Piece();
 		}
 

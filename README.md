@@ -62,7 +62,7 @@ Each piece is an array of (X,Y) points and has 4 forms (one for each 90 degree r
 To do list, updated ~~March 8~~ March 11, 2018: 
 - [X] Program skeleton and basic class structure
 - [X] Collision detection 
-- [ ] Line clearing 
+- [X] Line clearing 
 - [ ] Some kind of simple line clearing animation and visual tweaks 
 - [X] Different colors for pieces
 - [ ] Clean up code. For sure need to implement Iterable for custom objs, eliminate redundant variables, consolidate any code that is repeated. Hopefully around 500 lines total code

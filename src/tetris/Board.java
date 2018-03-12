@@ -69,6 +69,25 @@ public class Board {
         return false;
     }
 
+    public void clear_lines() {
+        for (int row = 0; row < 20; row++) {
+            boolean can_clear = true;
+            for (int col = 0; col < 10; col++)
+                if (squares[row][col] == Color.DARK_GRAY)
+                    can_clear = false;
+
+            if (can_clear)
+                for (int i = 19; i >= 0; i--)
+                    for (int j = 0; j < 10; j++) {
+                        if (i == 0)
+                            squares[0][j] = Color.DARK_GRAY;
+                        else if (i < row)
+                            squares[i + 1][j] = squares[i][j];
+                    }
+        }
+
+    }
+
     /**
      * Draws the game board showing the position
      * of the pieces.
