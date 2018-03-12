@@ -71,30 +71,9 @@ public class Board {
 
     /**
      * Draws the game board showing the position
-     * of the pieces, like:
+     * of the pieces.
      *
-     * ----------
-     * ----------
-     * ----------
-     * ----------
-     * ----------
-     * ----------
-     * ----------
-     * ----------
-     * ----------
-     * ----------
-     * --X-------
-     * --XXXXXX--
-     * XXXXXXXXX-
-     * XXXXXXXXX-
-     * XXXXXXXXX-
-     * XXXXXXXXXX
-     * XXXXXXXXXX
-     * XXXXXXXXXX
-     * XXXXXXXXXX
-     * XXXXXXXXXX
-     *
-     * @return
+     * @return String representation of board.
      */
     @Override public String toString() {
         StringBuilder s = new StringBuilder();

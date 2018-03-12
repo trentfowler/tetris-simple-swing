@@ -10,13 +10,7 @@ public class Tetris extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	enum Move {
-		LEFT,
-		RIGHT,
-		DOWN,
-		DROP,
-		ROTATE
-	}
+	enum Move {LEFT, RIGHT, DOWN, DROP, ROTATE}
 
 	private Piece piece;
 	private Board board;

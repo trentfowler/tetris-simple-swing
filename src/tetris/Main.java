@@ -17,15 +17,14 @@ public class Main {
 		final Tetris game = new Tetris();
 		new Thread() {
 			@Override public void run() {
-				while (true) {
-					try {
+				while (true) { try {
 						Thread.sleep(1000);
 						game.move(Tetris.Move.DOWN);
-					} catch (Exception e) { }
+					} catch (Exception e) {}
 				}
 			}
 		}.start();
-		JFrame frame = new JFrame(); 
+		JFrame frame = new JFrame();
 		frame.setContentPane(game);
 		frame.setSize(407, 830);
 		frame.setResizable(false);
@@ -35,24 +34,17 @@ public class Main {
 		frame.addKeyListener(new KeyListener() {
 			@Override public void keyTyped(KeyEvent e) { }
 			@Override public void keyReleased(KeyEvent e) { }
-			@Override public void keyPressed(KeyEvent e) { 
-				switch (e.getKeyCode()) {
-				case KeyEvent.VK_DOWN:
+			@Override public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_DOWN)
 					game.move(Tetris.Move.DOWN);
-					break;
-				case KeyEvent.VK_LEFT:
+				else if (e.getKeyCode() == KeyEvent.VK_LEFT)
 					game.move(Tetris.Move.LEFT);
-					break;
-				case KeyEvent.VK_RIGHT:
+				else if (e.getKeyCode() == KeyEvent.VK_RIGHT)
 					game.move(Tetris.Move.RIGHT);
-					break;
-				case KeyEvent.VK_UP:
+				else if (e.getKeyCode() == KeyEvent.VK_UP)
 					game.move(Tetris.Move.ROTATE);
-					break;
-				case KeyEvent.VK_SPACE:
+				else if (e.getKeyCode() == KeyEvent.VK_SPACE)
 					game.move(Tetris.Move.DROP);
-					break;
-				}
 			}
 		});
 	}
