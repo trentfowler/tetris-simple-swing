@@ -5,7 +5,7 @@ Throwback tetris in Swing, created just for fun :space_invader: and because I di
 :warning::warning::warning: Project started March 7, 2018. Not functional but will update when basic tetris mechanics are done. :warning::warning::warning:
 :warning: March 11, 2018: Added basic mechanics, Still lacks collision detection on rotation. :warning: 
 
-![Tetris]([Imgur](https://i.imgur.com/Tlgw69G.gif)
+![Tetris](https://i.imgur.com/Tlgw69G.gif)
 
 ---
 
