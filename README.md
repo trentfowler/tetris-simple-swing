@@ -11,30 +11,7 @@ Throwback tetris in Swing, created just for fun :space_invader: and because I di
 
 ## ```Board```
 
-The game board is a 2D grid. 10 cols x 20 rows. 
-
-Each ```X``` is an occupied space and ```-``` is an empty space. Each ```Color[row][col]``` element holds the ```java.awt.Color``` of that square.
-
-    ----------
-    ----------
-    ----------
-    ----------
-    ----------
-    ----------
-    ----------
-    ----------
-    ----------
-    ----------
-    --X-------
-    --XXXXXX--
-    XXXXXXXXX-
-    XXXXXXXXX-
-    XXXXXXXXX-
-    XXXXXXXXXX
-    XXXXXXXXXX
-    XXXXXXXXXX
-    XXXXXXXXXX
-    XXXXXXXXXX
+The game board is a 2D grid of 10 cols x 20 rows. Each game piece occupies four squares and each element (```Color[row][col]```) of the board holds the ```Color``` of the square at index (row,col). The default color represents an unoccupied square. 
 
 ---
 
